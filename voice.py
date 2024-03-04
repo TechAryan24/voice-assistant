@@ -7,6 +7,8 @@ import datetime
 import requests
 
 from bs4 import BeautifulSoup
+import os
+import pyautogui
 
 engine = pyttsx3.init("sapi5")
 voices = engine.getProperty("voices")
@@ -84,7 +86,48 @@ if __name__ == "__main__":
                     speak("Perfect, sir")
                 elif "thank you" in query:
                     speak("You are welcome, sir")
+
+                elif "pause" in query:
+                    pyautogui.press("k")
+                    speak("video paused")
+                elif "play" in query:
+                    pyautogui.press("k")
+                    speak("video played")
+                elif "mute" in query:
+                    pyautogui.press("m")
+                    speak("video muted")
+
+                elif "volume up" in query:
+                    from keyboard import volumeup
+                    speak("Turning volume up,sir")
+                    volumeup()
+                elif "volume down" in query:
+                    from keyboard import volumedown
+                    speak("Turning volume down, sir")
+                    volumedown()
+
                 
+                elif "open" in query:
+                    from Dictapp import openappweb
+                    openappweb(query)
+                elif "close" in query:
+                    from Dictapp import closeappweb
+                    closeappweb(query)
+
+                elif "remember that" in query:
+                    rememberMessage = query.replace("remember that", "")
+                    rememberMessage = rememberMessage.replace("jarvis", "")  # Corrected this line
+                    speak("You told me to " + rememberMessage)  # Added space after 'to'
+                    remember = open("Remember.txt", "a")
+                    remember.write(rememberMessage + "\n")  # Added a newline after each message
+                    remember.close()
+                elif "what do you remember" in query:
+                    remember = open("Remember.txt", "r")
+                    speak("You told me to " + remember.read())  # Added space after 'to'
+                    remember.close()
+
+
+
                 elif "temperature" in query:
                     search = "temperature in Mumbai"
                     url = f"https://www.google.com/search?q={search}"
@@ -104,11 +147,20 @@ if __name__ == "__main__":
                     strTime = datetime.datetime.now().strftime("%H:%M")    
                     speak(f"Sir, the time is {strTime}")
 
+
+
+                elif "finally sleep" in query:
+                    speak("Going to sleep,sir")
+                    exit()
+
+
                 else:
                     searchGoogle(query)
                     searchYoutube(query)
                     searchWikipedia(query)
 
+
+            
                     
                 
 
