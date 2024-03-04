@@ -114,6 +114,7 @@ if __name__ == "__main__":
                     from Dictapp import closeappweb
                     closeappweb(query)
 
+                
                 elif "remember that" in query:
                     rememberMessage = query.replace("remember that", "")
                     rememberMessage = rememberMessage.replace("jarvis", "")  # Corrected this line
@@ -126,8 +127,7 @@ if __name__ == "__main__":
                     speak("You told me to " + remember.read())  # Added space after 'to'
                     remember.close()
 
-
-
+                
                 elif "temperature" in query:
                     search = "temperature in Mumbai"
                     url = f"https://www.google.com/search?q={search}"
@@ -146,6 +146,15 @@ if __name__ == "__main__":
                 elif "the time" in query:
                     strTime = datetime.datetime.now().strftime("%H:%M")    
                     speak(f"Sir, the time is {strTime}")
+
+
+                elif "calculate" in query:
+                    from Calculatenumbers import WolfRamAlpha
+                    from Calculatenumbers import Calc
+                    query = query.replace("calculate","")
+                    query = query.replace("jarvis","")
+                    Calc(query)
+
 
 
 
