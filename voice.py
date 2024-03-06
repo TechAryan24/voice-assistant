@@ -9,6 +9,8 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import pyautogui
+from plyer import notification
+from pygame import mixer
 
 engine = pyttsx3.init("sapi5")
 voices = engine.getProperty("voices")
@@ -127,6 +129,24 @@ if __name__ == "__main__":
                     speak("You told me to " + remember.read())  # Added space after 'to'
                     remember.close()
 
+                elif "screenshot" in query:
+                     import pyautogui #pip install pyautogui
+                     im = pyautogui.screenshot()
+                     im.save("ss.jpg")
+
+                elif "click my photo" in query:
+                        pyautogui.press("super")
+                        pyautogui.typewrite("camera")
+                        pyautogui.press("enter")
+                        pyautogui.sleep(2)
+                        speak("SMILE")
+                        pyautogui.press("enter")
+
+                elif 'type' in query:
+                    query = query.replace("type","")
+                    pyautogui.typewrite(f"{query}",0.1)
+
+
                 
                 elif "temperature" in query:
                     search = "temperature in Mumbai"
@@ -155,6 +175,53 @@ if __name__ == "__main__":
                     query = query.replace("jarvis","")
                     Calc(query)
 
+                elif "shutdown the system" in query:
+                    speak("Are You sure you want to shutdown")
+                    shutdown = input("Do you wish to shutdown your computer? (yes/no)")
+                    if shutdown == "yes":
+                        os.system("shutdown /s /t 1")
+
+                    elif shutdown == "no":
+                        break
+
+                elif "schedule my day" in query:
+                    tasks = [] #Empty list 
+                    speak("Do you want to clear old tasks (Plz speak YES or NO)")
+                    query = takeCommand().lower()
+                    if "yes" in query:
+                        file = open("tasks.txt","w")
+                        file.write(f"")
+                        file.close()
+                        no_tasks = int(input("Enter the no. of tasks :- "))
+                        i = 0
+                        for i in range(no_tasks):
+                            tasks.append(input("Enter the task :- "))
+                            file = open("tasks.txt","a")
+                            file.write(f"{i}. {tasks[i]}\n")
+                            file.close()
+                    elif "no" in query:
+                        i = 0
+                        no_tasks = int(input("Enter the no. of tasks :- "))
+                        for i in range(no_tasks):
+                            tasks.append(input("Enter the task :- "))
+                            file = open("tasks.txt","a")
+                            file.write(f"{i}. {tasks[i]}\n")
+                            file.close()
+
+                    elif "show my schedule" in query:
+                        file = open("tasks.txt","r")
+                        content = file.read()
+                        file.close()
+                        mixer.init()
+                        mixer.music.load("notification.mp3.wav")
+                        mixer.music.play()
+                        notification.notify(
+                            title = "My schedule :-",
+                            message = content,
+                            timeout = 15
+                            )
+                        
+                    
 
 
 
