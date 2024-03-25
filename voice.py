@@ -54,7 +54,7 @@ def searchYoutube(query):
     if "youtube" in query:
         speak("This is what I found for your search!")
         query = query.replace("youtube", "")
-        web = "https://www.youtube.com/results?search_query=" + query
+        web = "https://www.youtube.com" + query
         webbrowser.open(web)
         pywhatkit.playonyt(query)
         speak("Done, Sir")
